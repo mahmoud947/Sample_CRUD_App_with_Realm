@@ -1,27 +1,24 @@
 package com.example.realmsample.ui.main.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.realmsample.databinding.ItemUsersBinding
-import com.example.realmsample.data.local.entity.UserEntity
-import com.example.realmsample.models.User
 
 class UsersAdapters(private val interaction: Interaction? = null) :
-    ListAdapter<User, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<com.example.data.models.User, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<com.example.data.models.User>() {
 
-            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            override fun areItemsTheSame(oldItem: com.example.data.models.User, newItem: com.example.data.models.User): Boolean {
             return oldItem.id==newItem.id
             }
 
 
-            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            override fun areContentsTheSame(oldItem: com.example.data.models.User, newItem: com.example.data.models.User): Boolean {
                 return oldItem==newItem
             }
 
@@ -49,7 +46,7 @@ class UsersAdapters(private val interaction: Interaction? = null) :
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: User) {
+        fun onBind(item: com.example.data.models.User) {
             binding.user = item
             binding.root.setOnClickListener {
                 interaction?.onItemSelected(this.adapterPosition, item)
@@ -72,6 +69,6 @@ class UsersAdapters(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: User)
+        fun onItemSelected(position: Int, item: com.example.data.models.User)
     }
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.example.realmsample.models.User" />
+            type="com.example.data.models.User" />
     </data>
 
     <com.google.android.flexbox.FlexboxLayout
