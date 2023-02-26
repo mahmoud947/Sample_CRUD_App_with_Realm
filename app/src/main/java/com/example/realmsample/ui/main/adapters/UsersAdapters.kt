@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.data.models.User
 import com.example.realmsample.databinding.ItemUsersBinding
 
 class UsersAdapters(private val interaction: Interaction? = null) :
@@ -13,13 +14,19 @@ class UsersAdapters(private val interaction: Interaction? = null) :
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<com.example.data.models.User>() {
 
-            override fun areItemsTheSame(oldItem: com.example.data.models.User, newItem: com.example.data.models.User): Boolean {
-            return oldItem.id==newItem.id
+            override fun areItemsTheSame(
+                oldItem: User,
+                newItem: User
+            ): Boolean {
+                return oldItem.id == newItem.id
             }
 
 
-            override fun areContentsTheSame(oldItem: com.example.data.models.User, newItem: com.example.data.models.User): Boolean {
-                return oldItem==newItem
+            override fun areContentsTheSame(
+                oldItem: User,
+                newItem: User
+            ): Boolean {
+                return oldItem == newItem
             }
 
         }
@@ -46,8 +53,11 @@ class UsersAdapters(private val interaction: Interaction? = null) :
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: com.example.data.models.User) {
+        fun onBind(item: User) {
             binding.user = item
+            binding.ivDelete.setOnClickListener {
+                interaction?.onDeleteClicked(item)
+            }
             binding.root.setOnClickListener {
                 interaction?.onItemSelected(this.adapterPosition, item)
             }
@@ -69,6 +79,7 @@ class UsersAdapters(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: com.example.data.models.User)
+        fun onItemSelected(position: Int, item:User)
+        fun onDeleteClicked(item: User)
     }
 }

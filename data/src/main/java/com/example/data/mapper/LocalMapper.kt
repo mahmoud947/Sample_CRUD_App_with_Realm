@@ -4,7 +4,7 @@ import com.example.data.local.entity.UserEntity
 import com.example.data.models.User
 
 fun UserEntity.toDomain(): User =
-    User(id = _id.toString(), name = name)
+    User(id = _id.toHexString(), name = name)
 
 
 

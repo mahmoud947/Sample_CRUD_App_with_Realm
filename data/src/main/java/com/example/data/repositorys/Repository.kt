@@ -7,6 +7,7 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.mongodb.kbson.ObjectId
 
 
 class Repository(
@@ -21,6 +22,29 @@ class Repository(
                 name = user.name
             })
         }
+
+    fun filterUsers(name: String): Flow<List<UserEntity>> {
+        return realm.query<UserEntity>(query = "name CONTAINS[c] $0", name).asFlow().map { it.list }
+    }
+
+    suspend fun updatePerson(user: User) {
+        realm.write {
+            val queriedPerson =
+                query<UserEntity>(query = "_id == $0", ObjectId(user.id)).first().find()
+            queriedPerson?.name = user.name
+        }
+    }
+
+    suspend fun deletePerson(id: String) {
+        realm.write {
+            val person = query<UserEntity>(query = "_id == $0", ObjectId(id)).first().find()
+            try {
+                person?.let { delete(it) }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 
     companion object {
